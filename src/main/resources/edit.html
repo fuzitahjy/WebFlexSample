@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="jp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>顧客情報編集</title>
+    <link rel="stylesheet" type="text/css"
+          href="../../static/css/style.css"
+          th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css"
+          href="./css/input_container.css"
+          th:href="@{/css/input_container.css}"/>
+</head>
+
+<body>
+<form th:action="@{/customers/edit}" th:object="${customerForm}" method="post">
+    <div id="input_container">
+        <div id="id_label">ID</div>
+        <input type="text" id="id" name="id" th:field="*{id}" th:errorclass="error-input" value="99999" />
+        <span id="id_error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error-messages">error!</span>
+
+        <div id="lastName_label">姓</div>
+        <input type="text" id="lastName" name="lastName" th:field="*{lastName}" th:errorclass="error-input" value="山田" />
+        <span id="lastName_error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error-messages">error!</span>
+
+        <div id="firstName_label">名</div>
+        <input type="text" id="firstName" name="firstName" th:field="*{firstName}" th:errorclass="error-input" value="太郎" />
+        <span id="firstName_error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error-messages">error!</span>
+    </div>
+    <input type="submit" name="goToTop" value="戻る"/>
+    <input type="hidden" name="id" th:value="${param.id[0]}"/>
+    <!--     <input type="submit" value="更新"/> -->
+    <input type="submit" name="update" value="更新"/>
+</form>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="jp">
+
+<head>
+  <meta charset="UTF-8">
+  <title>顧客一覧</title>
+  <link rel="stylesheet" type="text/css"
+        href="../../static/css/style.css"
+        th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" type="text/css"
+        href="./css/input_container.css"
+        th:href="@{/css/input_container.css}"/>
+</head>
+
+<body>
+<div>
+  <form th:action="@{/customers/create}" th:object="${customerForm}" method="post">
+    <div id="input_container">
+      <div id="id_label">ID</div>
+      <input type="text" id="id" name="id" th:field="*{id}" th:errorclass="error-input" value="99999" />
+      <span id="id_error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error-messages">error!</span>
+
+      <div id="lastName_label">姓</div>
+      <input type="text" id="lastName" name="lastName" th:field="*{lastName}" th:errorclass="error-input" value="山田" />
+      <span id="lastName_error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error-messages">error!</span>
+
+      <div id="firstName_label">名</div>
+      <input type="text" id="firstName" name="firstName" th:field="*{firstName}" th:errorclass="error-input" value="太郎" />
+      <span id="firstName_error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error-messages">error!</span>
+    </div>
+
+    <input type="submit" value="作成"/>
+    <input type="submit" value="クリア"/>
+  </form>
+</div>
+<hr/>
+<table>
+  <tr th:each="customer : ${customers}">
+    <td th:text="${customer.Id}">99999</td>
+    <td th:text="${customer.lastName}">表示サンプル名字</td>
+    <td th:text="${customer.firstName}">表示サンプル名前</td>
+    <!-- ついか -->
+    <td>
+      <form th:action="@{/customers/edit}" method="get">
+        <input type="submit" name="form" value="編集"/>
+        <input type="hidden" name="id" th:value="${customer.id}"/>
+      </form>
+    </td>
+    <td>
+      <form th:action="@{/customers/delete}" method="post">
+        <input type="submit" value="削除"/>
+        <input type="hidden" name="id" th:value="${customer.id}"/>
+      </form>
+    </td>
+    <!-- ついか -->
+  </tr>
+</table>
+</body>
+
+</html>

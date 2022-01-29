@@ -6,6 +6,7 @@ import org.example.service.ApplicationService;
 import org.example.web.CustomerForm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -15,14 +16,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.result.view.Rendering;
+import org.thymeleaf.spring5.SpringWebFluxTemplateEngine;
+import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
+import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
 @RequiredArgsConstructor
-@RestController
+//@RestController
+@Controller
 @RequestMapping("/customers")
-@Configuration(proxyBeanMethods = false)
+//@Configuration(proxyBeanMethods = false)
 public class ApplicationController {
 
     private final ApplicationService applicationService;
@@ -36,8 +42,10 @@ public class ApplicationController {
     //ついか
     @GetMapping
     String list(Model model) {
-        Flux<Customer> customers = applicationService.findAll();
-        model.addAttribute("customers", customers);
+        final Flux<Customer> customers = applicationService.findAll();
+        IReactiveDataDriverContextVariable iReactiveDataDriverContextVariable = new ReactiveDataDriverContextVariable(customers, 1);
+        model.addAttribute("customers", iReactiveDataDriverContextVariable);
+//        model.addAttribute("customers", reactiveDataDriverContextVariable);
         return "customers/list";
     }
 
